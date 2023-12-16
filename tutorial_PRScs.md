@@ -140,5 +140,5 @@ ggplot(final, aes(x=PRS_Residuos, group=pheno, fill=pheno))+
 # R2 Nagelkerke
 Null <- glm(formula = pheno ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, family = binomial(link="logit"), data = final)
 Full <- glm(formula = pheno ~ PRS + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, family = binomial(link="logit"), data = final)
-nagelkerke(Full_SD, null=Null_SD)$Pseudo.R.squared.for.model.vs.null[3]
+nagelkerke(Full, null=Null)$Pseudo.R.squared.for.model.vs.null[3]
 ```
