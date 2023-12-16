@@ -1,16 +1,23 @@
 ```
-Script to run PRS-CS
+Script to run PRS-CSx
 Last edited in December 16th, 2023
 PGC: Trainers Development Program Brazil 
 Lucas Toshio Ito
 ```
 
-# PRS-CS
+# PRS-CSx
 
-**PRS-CS** is a Python based command line tool that infers posterior SNP effect sizes under continuous shrinkage (CS) priors
-using GWAS summary statistics and an external LD reference panel. Details of the method are described in the article:
+PRS-CSx is a Python based command line tool that integrates GWAS summary statistics and external LD reference panels from multiple populations to improve cross-population polygenic prediction. Posterior SNP effect sizes are inferred under coupled continuous shrinkage (CS) priors across populations. PRS-CSx is an extension of the Bayesian polygenic prediction method PRS-CS (https://github.com/getian107/PRScs), described in the article:
 
-T Ge, CY Chen, Y Ni, YCA Feng, JW Smoller. Polygenic Prediction via Bayesian Regression and Continuous Shrinkage Priors. *Nature Communications*, 10:1776, 2019.
+T Ge, CY Chen, Y Ni, YCA Feng, JW Smoller. Polygenic Prediction via Bayesian Regression and Continuous Shrinkage Priors. Nature Communications, 10:1776, 2019.
+
+The development and evaluation of PRS-CSx are described in:
+
+Y Ruan, YF Lin, YCA Feng, CY Chen, M Lam, Z Guo, Stanley Global Asia Initiatives, L He, A Sawa, AR Martin, S Qin, H Huang, T Ge. Improving polygenic prediction in ancestrally diverse populations. Nature Genetics, 54:573-580, 2022.
+
+An application of the "meta" and "auto" version of PRS-CSx is described in:
+
+T Ge et al. Development and validation of a trans-ancestry polygenic risk score for type 2 diabetes in diverse populations. Genome Medicine, 14:70, 2022.
 
 ## Getting Started - Already done (check https://github.com/getian107/PRScs for setup details)
 
@@ -36,8 +43,8 @@ T Ge, CY Chen, Y Ni, YCA Feng, JW Smoller. Polygenic Prediction via Bayesian Reg
 
 - Once Python and its dependencies have been installed, and will show up the command-line options.
 
-  PRScs.py --help
-  PRScs.py -h
+  PRScsx.py --help
+  PRScsx.py -h
 
 ## Formatting the GWAS Summary Statistics
 
@@ -55,8 +62,8 @@ The test data contains GWAS summary statistics for chromosome 22 and plink files
 
 ### Creating work folder for PRS
 ```
-mkdir prs
-cd prs
+mkdir prscsx
+cd prscsx
 ```
 
 ### Copying all of the test data to your new folder (includes summary statistics from GWAS and plink files - .bed.bim.fam)
@@ -68,24 +75,27 @@ cp /home/PGC-TDP/test_prs/* ./
 ```
 refs=/home/PGC-TDP/refs
 
-PRScs.py \
-	--ref_dir=$refs/ldblk_1kg_eur \
+PRScsx.py \
+	--ref_dir=$refs \
 	--bim_prefix=./cc.clean \
-	--sst_file=./sumstats.txt \
-	--n_gwas=200000 \
+	--sst_file=./EUR_sumstats.txt,./EAS_sumstats.txt \
+	--n_gwas=200000,100000 \
+	--pop=EUR,EAS \
 	--chrom=22 \
-	--out_dir=./PRSCS_TEST
+	--meta=True \
+	--out_dir=./ \
+	--out_name=PRSCSX_TEST
 ```
 	
 ### Merging the results of each chromosome
 ```
-cat ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_chr* > ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_all.txt
+cat ./PRSCSX_TEST_pst_eff_a1_b0.5_phiauto_chr* > ./PRSCSX_TEST_pst_eff_a1_b0.5_phiauto_all.txt
 ```
 
 ### Calculating the score in PLINK
 ```
-# Results should be written in ./PRSCS_TEST_Score.profile
-plink --bfile ./cc.clean --score ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_all.txt 2 4 6 sum center --out ./PRSCS_TEST_Score
+# Results should be written in ./PRSCSX_TEST_Score.profile
+plink --bfile ./cc.clean --score ./PRSCSX_TEST_pst_eff_a1_b0.5_phiauto_all.txt 2 4 6 sum center --out ./PRSCSX_TEST_Score
 ```
 
 ### Principal Components Analysis
@@ -105,7 +115,7 @@ library(ggplot2)
 library(rcompanion)
 
 # Importing the data
-prs_score <- read.table("/home/PGC-TDP/scores/PRSCS_TEST_Score.profile", header=T)
+prs_score <- read.table("/home/PGC-TDP/scores/PRSCSX_TEST_Score.profile", header=T)
 colnames(prs_score)[6] <- "PRS"
 
 fam <- read.table("/home/PGC-TDP/scores/cc.clean.fam", header=F)
