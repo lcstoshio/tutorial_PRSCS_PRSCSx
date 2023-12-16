@@ -113,7 +113,7 @@ colnames(fam) <- c("famID", "IID", "fatID", "motID", "sex", "pheno")
 fam <- mutate(fam, pheno=factor(pheno, labels=c('Controle', 'Caso')))
 
 eigenvec <- read.table ("/home/PGC-TDP/scores/cc.clean_pca10.eigenvec", header = F)
-colnames(eigenvec) <- c("IID", paste0("PC", 1:10))
+colnames(eigenvec) <- c("FID", "IID", paste0("PC", 1:10))
 
 # Merging PRS + Phenotype and PCs
 final <- join_all(list(prs_score, fam, eigenvec), by="IID", type="inner)
