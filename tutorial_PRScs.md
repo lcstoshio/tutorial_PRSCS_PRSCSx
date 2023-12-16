@@ -1,11 +1,9 @@
----
-##########################
+```
 # Script to run PRS-CS
 # Last edited in December 16th, 2023
 # PGC: Trainers Development Program Brazil 
 # Lucas Toshio Ito
-########################## 
----
+```
 
 # PRS-CS
 
@@ -56,31 +54,32 @@ The summary statistics file must include the SNP identifier (in rsid format), Al
 The test data contains GWAS summary statistics for chromosome 22 and plink files.
 
 ### Creating work folder for PRS
-mkdir prs
-cd prs
+`mkdir prs`
+`cd prs`
 
 ### Copying all of the test data to your new folder (includes summary statistics from GWAS and plink files - .bed.bim.fam)
-cp /home/PGC-TDP/test_prs/* ./
+`cp /home/PGC-TDP/test_prs/* ./`
 
 ### Running PRS-CS
-refs=/home/PGC-TDP/refs
+`refs=/home/PGC-TDP/refs`
 
-PRScs.py \
+`PRScs.py \
 	--ref_dir=$refs/ldblk_1kg_eur \
 	--bim_prefix=./cc.clean \
 	--sst_file=./sumstats.txt \
 	--n_gwas=200000 \
 	--chrom=22 \
-	--out_dir=./PRSCS_TEST
+	--out_dir=./PRSCS_TEST`
 	
 ### Merging the results of each chromosome
-cat ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_chr* > ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_all.txt
+`cat ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_chr* > ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_all.txt`
 
 ### Calculating the score in PLINK
-plink --bfile ./cc.clean --score ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_all.txt 2 4 6 sum center --out ./PRSCS_TEST_Score
-### Results should be written in ./PRSCS_TEST_Score.profile
+`plink --bfile ./cc.clean --score ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_all.txt 2 4 6 sum center --out ./PRSCS_TEST_Score`
 
-plink --bfile ./cc.clean --pca 10 --out ./cc.clean_pca10
+Results should be written in ./PRSCS_TEST_Score.profile
+
+`plink --bfile ./cc.clean --pca 10 --out ./cc.clean_pca10`
 
 ## Interpreting results in R
 
