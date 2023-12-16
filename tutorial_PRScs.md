@@ -98,7 +98,7 @@ plink --bfile ./cc.clean --pca 10 --out ./cc.clean_pca10
 
 ```{r}
 # Packages
-#install.packages(c("dplyr", "plyr", "ggplot2", "rcompanion"))
+# install.packages(c("dplyr", "plyr", "ggplot2", "rcompanion"))
 library(dplyr)
 library(plyr)
 library(ggplot2)
