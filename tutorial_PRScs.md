@@ -110,7 +110,7 @@ colnames(prs_score)[6] <- "PRS"
 
 fam <- read.table("/home/PGC-TDP/scores/cc.clean.fam", header=F)
 colnames(fam) <- c("famID", "IID", "fatID", "motID", "sex", "pheno")
-fam <- mutate(pheno, pheno=factor(pheno, labels=c('Controle', 'Caso')))
+fam <- mutate(fam, pheno=factor(pheno, labels=c('Controle', 'Caso')))
 
 eigenvec <- read.table ("./cc.clean_pca10.eigenvec", header = F)
 colnames(eigenvec) <- c("IID", paste0("PC", 1:10))
