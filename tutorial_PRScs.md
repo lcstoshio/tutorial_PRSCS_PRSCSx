@@ -116,7 +116,7 @@ eigenvec <- read.table ("/home/PGC-TDP/scores/cc.clean_pca10.eigenvec", header =
 colnames(eigenvec) <- c("FID", "IID", paste0("PC", 1:10))
 
 # Merging PRS + Phenotype and PCs
-final <- join_all(list(prs_score, fam, eigenvec), by="IID", type="inner)
+final <- join_all(list(prs_score, fam, eigenvec), by="IID", type="inner")
 
 # Regression with covariables
 fit <- lm (PRS ~ PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10, data=final)
