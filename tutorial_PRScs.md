@@ -22,11 +22,11 @@ T Ge, CY Chen, Y Ni, YCA Feng, JW Smoller. Polygenic Prediction via Bayesian Reg
 
     LD reference panels constructed using the 1000 Genomes Project phase 3 samples (should use the function `tar -zxvf ldblk_1kg_POP.tar.gz` before using):
     
-     African - /home/PGC-TDP/refs/ldblk_1kg_afr     
-     American - /home/PGC-TDP/refs/ldblk_1kg_amr
-     East Asian - /home/PGC-TDP/refs/ldblk_1kg_eas
-     European - /home/PGC-TDP/refs/ldblk_1kg_eur
-     South Asian - /home/PGC-TDP/refs/ldblk_1kg_sas
+     African - /home/PGC-TDP/refs/ldblk_1kg_afr   
+     American - /home/PGC-TDP/refs/ldblk_1kg_amr  
+     East Asian - /home/PGC-TDP/refs/ldblk_1kg_eas  
+     European - /home/PGC-TDP/refs/ldblk_1kg_eur  
+     South Asian - /home/PGC-TDP/refs/ldblk_1kg_sas  
      
 - PRScs requires Python packages **scipy** (https://www.scipy.org/) and **h5py** (https://www.h5py.org/) installed.
   
@@ -84,10 +84,11 @@ cat ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_chr* > ./PRSCS_TEST_pst_eff_a1_b0.5_phi
 
 ### Calculating the score in PLINK
 ```
+# Results should be written in ./PRSCS_TEST_Score.profile
 plink --bfile ./cc.clean --score ./PRSCS_TEST_pst_eff_a1_b0.5_phiauto_all.txt 2 4 6 sum center --out ./PRSCS_TEST_Score
 ```
 
-Results should be written in ./PRSCS_TEST_Score.profile
+### Principal Components Analysis
 
 ```
 plink --bfile ./cc.clean --pca 10 --out ./cc.clean_pca10
